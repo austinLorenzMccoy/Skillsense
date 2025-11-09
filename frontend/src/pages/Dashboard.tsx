@@ -8,11 +8,14 @@ import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { Upload, Download, Share2, Brain, Sparkles, Loader2, RefreshCw, CheckCircle, Wifi, WifiOff } from "lucide-react";
+import { Upload, Download, Share2, Brain, Sparkles, Loader2, RefreshCw, CheckCircle, Wifi, WifiOff, TrendingUp, Radar } from "lucide-react";
 import { apiClient, JobStatus, ProfileResponse } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "../contexts/AuthContext";
 import EmployerDashboard from "./EmployerDashboard";
+import { AICareerCoach } from "@/components/AICareerCoach";
+import { SkillRadarChart } from "@/components/SkillRadarChart";
+import { ShareableProfileCard } from "@/components/ShareableProfileCard";
 
 // Mock data for demonstration when no real data
 const mockSkills = [
@@ -246,11 +249,14 @@ const Dashboard = () => {
               </div>
 
               <Tabs defaultValue="all" className="w-full">
-                <TabsList className="grid w-full grid-cols-4">
+                <TabsList className="grid w-full grid-cols-7">
                   <TabsTrigger value="all">All Skills</TabsTrigger>
                   <TabsTrigger value="hard">Technical</TabsTrigger>
                   <TabsTrigger value="soft">Soft Skills</TabsTrigger>
                   <TabsTrigger value="emerging">Emerging</TabsTrigger>
+                  <TabsTrigger value="radar"><Radar className="w-4 h-4 mr-1" />Radar</TabsTrigger>
+                  <TabsTrigger value="coach"><Brain className="w-4 h-4 mr-1" />AI Coach</TabsTrigger>
+                  <TabsTrigger value="share"><Share2 className="w-4 h-4 mr-1" />Share</TabsTrigger>
                 </TabsList>
 
                 <TabsContent value="all" className="mt-6">
@@ -288,6 +294,47 @@ const Dashboard = () => {
                       .map((skill, index) => (
                         <SkillCard key={index} {...skill} />
                       ))}
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="radar" className="mt-6">
+                  <div className="max-w-4xl mx-auto">
+                    <div className="mb-6 text-center">
+                      <h3 className="text-2xl font-bold mb-2">Skill Radar Visualization</h3>
+                      <p className="text-muted-foreground">Interactive view of your top skills and confidence levels</p>
+                    </div>
+                    <SkillRadarChart skills={skills.slice(0, 8)} />
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="coach" className="mt-6">
+                  <div className="max-w-4xl mx-auto">
+                    <div className="mb-6 text-center">
+                      <h3 className="text-2xl font-bold mb-2 flex items-center justify-center gap-2">
+                        <Brain className="w-6 h-6 text-primary" />
+                        AI Career Coach
+                      </h3>
+                      <p className="text-muted-foreground">Get personalized career advice powered by Groq AI</p>
+                    </div>
+                    <AICareerCoach skills={skills.map(s => ({ name: s.skillName, confidence: s.confidence }))} />
+                  </div>
+                </TabsContent>
+
+                <TabsContent value="share" className="mt-6">
+                  <div className="max-w-2xl mx-auto">
+                    <div className="mb-6 text-center">
+                      <h3 className="text-2xl font-bold mb-2 flex items-center justify-center gap-2">
+                        <Share2 className="w-6 h-6 text-primary" />
+                        Share Your Profile
+                      </h3>
+                      <p className="text-muted-foreground">Create a beautiful shareable card for social media</p>
+                    </div>
+                    <ShareableProfileCard 
+                      name={user?.email?.split('@')[0] || 'Demo User'}
+                      email={user?.email || 'demo@skillsense.ai'}
+                      skills={skills}
+                      profileUrl={window.location.origin + '/profile'}
+                    />
                   </div>
                 </TabsContent>
               </Tabs>
