@@ -60,21 +60,34 @@ SkillSense doesn't just parse resumes—it **infers hidden capabilities** using 
 - **🎨 TailwindCSS**: Utility-first styling with custom design system
 - **🔧 Vite**: Lightning-fast build tool and dev server
 - **📱 Responsive Design**: Mobile-first approach with adaptive layouts
-- **🎯 Component Library**: Custom UI components with Radix primitives
+- **🎯 Component Library**: Custom UI components with Radix UI & shadcn/ui
+- **🔐 Authentication**: JWT-based auth with role-based access control
+- **🌐 Routing**: React Router v6 with protected routes
 
 ### Backend (FastAPI + Python)
 - **🚀 FastAPI**: High-performance async web framework
 - **🐘 PostgreSQL**: Robust relational database with SQLAlchemy ORM
-- **🔴 Redis**: In-memory data structure store for caching and queues
-- **🎯 Celery**: Distributed task queue for background processing
-- **🧠 Local AI**: Sentence-transformers + spaCy for NLP tasks
+- **🔐 Authentication**: JWT tokens with bcrypt password hashing
+- **🤖 AI Integration**: Groq API for embeddings and skill extraction
+- **🧠 NLP**: Sentence-transformers (optional) + spaCy for text processing
 - **📊 Vector Processing**: Cosine similarity for skill matching
+- **🔴 Redis**: In-memory data structure store for caching (optional)
+- **🎯 Celery**: Distributed task queue for background processing (optional)
+
+### AI & Machine Learning
+- **🤖 Groq API**: Free tier LLM for skill extraction (14,400 requests/day)
+- **🧠 Embeddings**: API-based semantic embeddings (384-dimensional vectors)
+- **📝 Text Analysis**: Context-aware skill inference
+- **🎯 Confidence Scoring**: Mathematical certainty scores for skill assessments
+- **💡 Fallback Strategy**: Zero-vector fallback when API unavailable
 
 ### DevOps & Deployment
+- **🌐 Netlify**: Frontend deployment with automatic CI/CD
+- **🎨 Render**: Backend deployment with PostgreSQL database
 - **🐳 Docker**: Containerized deployment with docker-compose
-- **🚀 Vercel**: Frontend deployment with automatic CI/CD
-- **🎨 Render**: Backend deployment with persistent databases
-- **🧪 Testing**: Pytest + Playwright for comprehensive test coverage
+- **🔒 Security**: HTTPS, CORS, JWT, bcrypt, environment variables
+- **🧪 Testing**: Pytest (backend) + SQLite (test database)
+- **📊 Monitoring**: Health checks and error logging
 
 ---
 
