@@ -1,12 +1,34 @@
 from fastapi import FastAPI
-from app.api.v1 import ingest, profile, reasoning
+from fastapi.middleware.cors import CORSMiddleware
+from app.api.v1.ingest import router as ingest_router
+from app.api.v1.profile import router as profile_router
+from app.api.v1.reasoning import router as reasoning_router
 
-app = FastAPI(title="SkillSense API")
+app = FastAPI(
+    title="SkillSense API",
+    description="AI-powered talent discovery and skill analysis platform",
+    version="1.0.0"
+)
 
-app.include_router(ingest.router, prefix="/api/v1")
-app.include_router(profile.router, prefix="/api/v1")
-app.include_router(reasoning.router, prefix="/api/v1")
+# CORS middleware
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=["http://localhost:8080", "http://localhost:3000"],  # Add your frontend URLs
+    allow_credentials=True,
+    allow_methods=["*"],
+    allow_headers=["*"],
+)
 
+# Health check endpoint
 @app.get("/health")
-async def health():
-    return {"status": "ok"}
+async def health_check():
+    return {"status": "healthy", "version": "1.0.0"}
+
+# API routers
+app.include_router(ingest_router, prefix="/api/v1", tags=["ingest"])
+app.include_router(profile_router, prefix="/api/v1", tags=["profile"])
+app.include_router(reasoning_router, prefix="/api/v1", tags=["reasoning"])
+
+@app.get("/")
+async def root():
+    return {"message": "Welcome to SkillSense API", "docs": "/docs"}

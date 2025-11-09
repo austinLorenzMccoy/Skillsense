@@ -1,13 +1,16 @@
 import re
 from typing import List, Dict, Any
 from .skill_ontology import get_local_skills, normalize_skill
-import spacy
 
-# Load spaCy model
+# Try to import spaCy, make it optional
 try:
+    import spacy
     nlp = spacy.load("en_core_web_sm")
-except:
+    SPACY_AVAILABLE = True
+except (ImportError, OSError):
     nlp = None
+    SPACY_AVAILABLE = False
+    print("Warning: spaCy not available, using basic text processing")
 
 def extract_explicit_skills(text: str) -> List[Dict[str, Any]]:
     """Extract explicit skills mentioned in text using NLP and keyword matching"""
@@ -38,7 +41,7 @@ def extract_explicit_skills(text: str) -> List[Dict[str, Any]]:
             })
     
     # NLP-based extraction if spaCy is available
-    if nlp:
+    if SPACY_AVAILABLE and nlp:
         skills_found.extend(extract_with_spacy(text))
     
     # Remove duplicates and sort by confidence
@@ -52,6 +55,9 @@ def extract_explicit_skills(text: str) -> List[Dict[str, Any]]:
 
 def extract_with_spacy(text: str) -> List[Dict[str, Any]]:
     """Use spaCy for more sophisticated skill extraction"""
+    if not SPACY_AVAILABLE or not nlp:
+        return []
+        
     doc = nlp(text)
     skills_found = []
     
