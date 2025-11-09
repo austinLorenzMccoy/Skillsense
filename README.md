@@ -353,13 +353,25 @@ make test-all
 
 ---
 
+## 📚 **Documentation**
+
+Comprehensive documentation is available in the [`/documentations`](./documentations) folder:
+
+- **[Authentication Architecture](./documentations/AUTH_ARCHITECTURE.md)** - Complete auth system design
+- **[Authentication Testing](./documentations/AUTH_TESTING.md)** - Testing guide and setup
+- **[Workflow Test Report](./documentations/WORKFLOW_TEST_REPORT.md)** - Production readiness status
+- **[Groq API Integration](./documentations/TEST_GROQ.md)** - AI integration guide
+
+See the [Documentation Index](./documentations/README.md) for a complete list.
+
+---
+
 ## 📞 **Support & Community**
 
-- **📧 Email**: hello@skillsense.ai
-- **🐛 Issues**: [GitHub Issues](https://github.com/your-org/skillsense/issues)
-- **💬 Discussions**: [GitHub Discussions](https://github.com/your-org/skillsense/discussions)
-- **📖 Documentation**: [docs.skillsense.ai](https://docs.skillsense.ai)
-- **🎯 Roadmap**: [GitHub Projects](https://github.com/your-org/skillsense/projects)
+- **🐛 Issues**: [GitHub Issues](https://github.com/austinLorenzMccoy/Skillsense/issues)
+- **💬 Discussions**: [GitHub Discussions](https://github.com/austinLorenzMccoy/Skillsense/discussions)
+- **📖 Documentation**: [/documentations](./documentations)
+- **🎯 Live Demo**: [skillsense-hacknation.netlify.app](https://skillsense-hacknation.netlify.app/)
 
 ---
 
