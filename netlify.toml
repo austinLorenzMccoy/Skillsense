@@ -5,10 +5,11 @@
 
 [build.environment]
   NODE_VERSION = "18"
+  VITE_API_BASE_URL = "https://skillsense.onrender.com"
 
 [[redirects]]
   from = "/api/*"
-  to = "https://your-backend-url.onrender.com/api/:splat"
+  to = "https://skillsense.onrender.com/api/:splat"
   status = 200
   force = true
 
