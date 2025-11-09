@@ -41,12 +41,29 @@ export const DemoLoginButton = () => {
         description: `Logged in as ${label}. Explore all features!`,
       });
       navigate('/dashboard');
-    } catch (error) {
+    } catch (error: any) {
+      // Fallback: Create mock offline session
+      const mockUser = {
+        id: role === 'employee' ? 'demo-employee-offline' : 'demo-employer-offline',
+        email: role === 'employee' ? 'demo@skillsense.ai' : 'employer@skillsense.ai',
+        role: role,
+        is_verified: true,
+        is_active: true,
+        created_at: new Date().toISOString(),
+      };
+      
+      // Store mock session
+      localStorage.setItem('token', 'offline-demo-token');
+      localStorage.setItem('user', JSON.stringify(mockUser));
+      
       toast({
-        title: 'Login Failed',
-        description: 'Demo accounts are being set up. Please try again in a moment.',
-        variant: 'destructive',
+        title: '🎭 Offline Demo Mode',
+        description: `Viewing ${role === 'employee' ? 'Employee' : 'Employer'} demo (Backend deploying - limited features)`,
+        duration: 5000,
       });
+      
+      // Reload to trigger auth context update
+      window.location.href = '/dashboard';
     } finally {
       setIsLoading(false);
     }

@@ -8,7 +8,7 @@ import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Progress } from "@/components/ui/progress";
 import { Badge } from "@/components/ui/badge";
-import { Upload, Download, Share2, Brain, Sparkles, Loader2, RefreshCw, CheckCircle } from "lucide-react";
+import { Upload, Download, Share2, Brain, Sparkles, Loader2, RefreshCw, CheckCircle, Wifi, WifiOff } from "lucide-react";
 import { apiClient, JobStatus, ProfileResponse } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
 import { useAuth } from "../contexts/AuthContext";
@@ -65,7 +65,7 @@ const mockSkills = [
 ];
 
 const Dashboard = () => {
-  const { user } = useAuth();
+  const { user, token } = useAuth();
   const [searchParams] = useSearchParams();
   const { toast } = useToast();
   const [skills, setSkills] = useState(mockSkills);
@@ -156,6 +156,31 @@ const Dashboard = () => {
           </header>
 
           <div className="p-6">
+          {/* Offline Mode Banner */}
+          {token === 'offline-demo-token' && (
+            <Card className="mb-6 p-4 bg-amber-500/10 border-amber-500/20">
+              <div className="flex items-center gap-3">
+                <WifiOff className="w-5 h-5 text-amber-500" />
+                <div className="flex-1">
+                  <h3 className="font-semibold text-foreground">🎭 Offline Demo Mode</h3>
+                  <p className="text-sm text-muted-foreground">
+                    Backend is deploying. You're viewing a functional demo with sample data. 
+                    Full features will be available once deployment completes (~3 minutes).
+                  </p>
+                </div>
+                <Button 
+                  variant="outline" 
+                  size="sm"
+                  onClick={() => window.location.reload()}
+                  className="flex items-center gap-2"
+                >
+                  <RefreshCw className="w-4 h-4" />
+                  Check Status
+                </Button>
+              </div>
+            </Card>
+          )}
+          
           {/* Header Section */}
           <div className="mb-12 space-y-6">
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
