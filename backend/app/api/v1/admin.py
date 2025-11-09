@@ -5,6 +5,7 @@ from fastapi import APIRouter, HTTPException, Depends
 from app.core.db import engine, get_db
 from app.core.models import Base, User, Company, UserProfile
 from app.core.auth import hash_password, pwd_context
+import bcrypt
 from sqlalchemy.orm import Session
 import os
 
@@ -32,9 +33,11 @@ async def initialize_database(secret: str):
         # Simple password for demo
         demo_password = "demo123456"
         
-        # Hash password once for both users
+        # Hash password once for both users using bcrypt directly
         try:
-            hashed_pwd = pwd_context.hash(demo_password)
+            # Use bcrypt directly with explicit salt rounds
+            salt = bcrypt.gensalt(rounds=12)
+            hashed_pwd = bcrypt.hashpw(demo_password.encode('utf-8'), salt).decode('utf-8')
         except Exception as hash_error:
             raise HTTPException(status_code=500, detail=f"Password hashing failed: {str(hash_error)}")
         
