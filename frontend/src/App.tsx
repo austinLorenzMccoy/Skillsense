@@ -19,6 +19,7 @@ import SettingsPage from "./pages/Settings";
 import CareerCoach from "./pages/CareerCoach";
 import SkillVisualization from "./pages/SkillVisualization";
 import ShareProfile from "./pages/ShareProfile";
+import GitHubAnalysis from "./pages/GitHubAnalysis";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -115,6 +116,14 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <ShareProfile />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/github" 
+              element={
+                <ProtectedRoute>
+                  <GitHubAnalysis />
                 </ProtectedRoute>
               } 
             />

@@ -1,4 +1,4 @@
-import { Home, LayoutDashboard, Upload, Users, Settings, Sparkles, Brain, TrendingUp, Radar, Share2 } from "lucide-react";
+import { Home, LayoutDashboard, Upload, Users, Settings, Sparkles, Brain, TrendingUp, Radar, Share2, Github } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import {
   Sidebar,
@@ -26,6 +26,7 @@ const analyticsItems = [
 ];
 
 const aiFeatures = [
+  { title: "GitHub Analysis", url: "/github", icon: Github },
   { title: "AI Career Coach", url: "/coach", icon: Brain },
   { title: "Skill Visualization", url: "/visualize", icon: Radar },
   { title: "Share Profile", url: "/share", icon: Share2 },
