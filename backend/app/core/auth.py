@@ -3,7 +3,7 @@ Authentication utilities for JWT token management and password hashing
 """
 from datetime import datetime, timedelta
 from typing import Optional
-import jwt
+from jose import jwt, JWTError
 from passlib.context import CryptContext
 from fastapi import Depends, HTTPException, status
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
@@ -44,12 +44,7 @@ def decode_access_token(token: str) -> dict:
     try:
         payload = jwt.decode(token, SECRET_KEY, algorithms=[ALGORITHM])
         return payload
-    except jwt.ExpiredSignatureError:
-        raise HTTPException(
-            status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Token has expired"
-        )
-    except jwt.JWTError:
+    except JWTError:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="Could not validate credentials"

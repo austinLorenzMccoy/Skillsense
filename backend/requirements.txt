@@ -10,6 +10,7 @@ python-jose[cryptography]
 celery
 redis
 requests
+httpx
 groq
 sentence-transformers
 faiss-cpu
@@ -19,5 +20,4 @@ python-docx
 spacy
 weasyprint
 pytest
-httpx
 pytest-mock
