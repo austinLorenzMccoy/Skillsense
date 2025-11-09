@@ -16,6 +16,9 @@ import Team from "./pages/Team";
 import Insights from "./pages/Insights";
 import Growth from "./pages/Growth";
 import SettingsPage from "./pages/Settings";
+import CareerCoach from "./pages/CareerCoach";
+import SkillVisualization from "./pages/SkillVisualization";
+import ShareProfile from "./pages/ShareProfile";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -88,6 +91,30 @@ const App = () => (
               element={
                 <ProtectedRoute>
                   <SettingsPage />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/coach" 
+              element={
+                <ProtectedRoute>
+                  <CareerCoach />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/visualize" 
+              element={
+                <ProtectedRoute>
+                  <SkillVisualization />
+                </ProtectedRoute>
+              } 
+            />
+            <Route 
+              path="/share" 
+              element={
+                <ProtectedRoute>
+                  <ShareProfile />
                 </ProtectedRoute>
               } 
             />

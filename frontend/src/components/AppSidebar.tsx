@@ -1,4 +1,4 @@
-import { Home, LayoutDashboard, Upload, Users, Settings, Sparkles, Brain, TrendingUp } from "lucide-react";
+import { Home, LayoutDashboard, Upload, Users, Settings, Sparkles, Brain, TrendingUp, Radar, Share2 } from "lucide-react";
 import { NavLink } from "@/components/NavLink";
 import {
   Sidebar,
@@ -23,6 +23,12 @@ const menuItems = [
 const analyticsItems = [
   { title: "Skill Insights", url: "/insights", icon: Brain },
   { title: "Growth Path", url: "/growth", icon: TrendingUp },
+];
+
+const aiFeatures = [
+  { title: "AI Career Coach", url: "/coach", icon: Brain },
+  { title: "Skill Visualization", url: "/visualize", icon: Radar },
+  { title: "Share Profile", url: "/share", icon: Share2 },
 ];
 
 export function AppSidebar() {
@@ -68,6 +74,33 @@ export function AppSidebar() {
           <SidebarGroupContent>
             <SidebarMenu>
               {analyticsItems.map((item) => (
+                <SidebarMenuItem key={item.title}>
+                  <SidebarMenuButton asChild>
+                    <NavLink
+                      to={item.url}
+                      end
+                      className="hover:bg-sidebar-accent"
+                      activeClassName="bg-sidebar-accent text-sidebar-primary font-medium"
+                    >
+                      <item.icon className="w-4 h-4" />
+                      {!isCollapsed && <span>{item.title}</span>}
+                    </NavLink>
+                  </SidebarMenuButton>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+
+        {/* AI Features */}
+        <SidebarGroup>
+          <SidebarGroupLabel className="flex items-center gap-2">
+            <Sparkles className="w-4 h-4" />
+            {!isCollapsed && <span>AI Features</span>}
+          </SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {aiFeatures.map((item) => (
                 <SidebarMenuItem key={item.title}>
                   <SidebarMenuButton asChild>
                     <NavLink
