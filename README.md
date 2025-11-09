@@ -121,9 +121,11 @@ pnpm run dev
 ```
 
 ### 5. Access Application
-- **🎨 Frontend**: http://localhost:8080
-- **🔧 Backend API**: http://localhost:8000
-- **📚 API Docs**: http://localhost:8000/docs
+- **🎨 Frontend (Local)**: http://localhost:8080
+- **🌐 Frontend (Live)**: https://skillsense-hacknation.netlify.app/
+- **🔧 Backend API (Local)**: http://localhost:8000
+- **🚀 Backend API (Live)**: https://skillsense.onrender.com
+- **📚 API Docs**: http://localhost:8000/docs or https://skillsense.onrender.com/docs
 
 ---
 
@@ -180,21 +182,53 @@ python api_demo.py  # Tests all endpoints
 
 ## 🚀 **Deployment**
 
-### Frontend (Vercel)
+### 🌐 **Live Demo**
+- **Frontend**: https://skillsense-hacknation.netlify.app/
+- **Backend API**: https://skillsense.onrender.com
+- **API Docs**: https://skillsense.onrender.com/docs
+- **Health Check**: https://skillsense.onrender.com/health
+
+### Frontend (Netlify)
 ```bash
 cd frontend
 pnpm build
-# Deploy via Vercel CLI or connect GitHub repo
+
+# Automatic deployment on push to main
+# Environment variables:
+# - VITE_API_BASE_URL=https://skillsense.onrender.com
 ```
+
+**Deployed on**: Netlify (Free Tier)
+- Auto-deploy from GitHub
+- Custom domain support
+- CDN distribution
+- Instant rollbacks
 
 ### Backend (Render)
 ```bash
 cd backend
-# Deploy via Render dashboard or CLI
-# Includes PostgreSQL and Redis add-ons
+
+# Automatic deployment on push to main
+# Environment variables:
+# - DATABASE_URL (auto-configured)
+# - GROQ_API_KEY (for AI embeddings)
+# - DISABLE_ML_MODELS=true (for free tier)
 ```
 
-### Docker Production
+**Deployed on**: Render (Free Tier)
+- PostgreSQL database included
+- Auto-scaling
+- Zero-downtime deploys
+- Free SSL certificates
+
+### Tech Stack (Production)
+- **Frontend**: Netlify + Vite + React
+- **Backend**: Render + FastAPI + Python 3.11
+- **Database**: PostgreSQL (Render)
+- **AI**: Groq API (Free Tier - 14,400 requests/day)
+- **Embeddings**: API-based (no local models for free tier)
+
+### Docker Production (Self-Hosted)
 ```bash
 # Build and run complete stack
 docker-compose -f docker-compose.prod.yml up -d
