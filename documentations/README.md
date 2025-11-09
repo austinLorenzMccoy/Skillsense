@@ -6,6 +6,23 @@ This directory contains all technical documentation for the SkillSense platform.
 
 ## 📖 Documentation Index
 
+### 👥 User Guides
+- **[Employee/Job Seeker Guide](./USER_GUIDE_EMPLOYEE.md)** - Complete guide for job seekers
+  - Getting started & account setup
+  - Understanding your skill profile
+  - Using AI Career Coach
+  - Sharing your profile
+  - Premium features
+  - Best practices & FAQs
+
+- **[Employer/Recruiter Guide](./USER_GUIDE_EMPLOYER.md)** - Complete guide for employers
+  - Company account setup
+  - Finding the right talent
+  - Posting jobs & AI matching
+  - Building balanced teams
+  - Analytics & insights
+  - Pricing plans & best practices
+
 ### 🔐 Authentication & Security
 - **[AUTH_IMPLEMENTATION_COMPLETE.md](./AUTH_IMPLEMENTATION_COMPLETE.md)** - ✅ **COMPLETE** Implementation summary
   - All 7 phases implemented
