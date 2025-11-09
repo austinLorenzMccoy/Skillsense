@@ -94,12 +94,13 @@ const Dashboard = () => {
                   <Download className="w-4 h-4" />
                   Export PDF
                 </Button>
-                <Button variant="hero" size="sm">
-                  </div>
-                  {isPolling && <Loader2 className="w-6 h-6 animate-spin" />}
-                </div>
-              </Card>
-            )}
+                <Button variant="outline" size="sm">
+                  <Share2 className="w-4 h-4" />
+                  Share
+                </Button>
+              </div>
+            </div>
+          </div>
 
             {/* Profile Summary */}
             {profile && (
