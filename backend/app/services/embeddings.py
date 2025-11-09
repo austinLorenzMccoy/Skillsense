@@ -2,28 +2,36 @@ from typing import List, Dict, Any
 import numpy as np
 
 # Use local sentence transformers for embeddings
-try:
-    from sentence_transformers import SentenceTransformer
-    # Add timeout and cache configuration
-    import os
-    os.environ['HF_HUB_TIMEOUT'] = '30'  # Increase timeout to 30 seconds
-    os.environ['HF_HUB_CACHE'] = os.path.expanduser('~/.cache/huggingface')
-    os.environ['HF_HUB_DISABLE_PROGRESS_BARS'] = '1'  # Reduce output
+# Disabled for Render free tier (512MB memory limit)
+import os
+DISABLE_ML_MODELS = os.getenv('DISABLE_ML_MODELS', 'false').lower() == 'true'
 
-    try:
-        model = SentenceTransformer('all-MiniLM-L6-v2', cache_folder=os.path.expanduser('~/.cache/huggingface'))
-        EMBEDDINGS_AVAILABLE = True
-        print("✅ Sentence transformers model loaded successfully")
-    except Exception as e:
-        print(f"⚠️ Failed to load sentence transformers: {e}")
-        print("Using fallback zero vectors for embeddings")
-        model = None
-        EMBEDDINGS_AVAILABLE = False
-
-except ImportError:
+if DISABLE_ML_MODELS:
     EMBEDDINGS_AVAILABLE = False
     model = None
-    print("⚠️ sentence-transformers not available, using fallback embeddings")
+    print("⚠️ ML models disabled (DISABLE_ML_MODELS=true), using fallback embeddings")
+else:
+    try:
+        from sentence_transformers import SentenceTransformer
+        # Add timeout and cache configuration
+        os.environ['HF_HUB_TIMEOUT'] = '30'  # Increase timeout to 30 seconds
+        os.environ['HF_HUB_CACHE'] = os.path.expanduser('~/.cache/huggingface')
+        os.environ['HF_HUB_DISABLE_PROGRESS_BARS'] = '1'  # Reduce output
+
+        try:
+            model = SentenceTransformer('all-MiniLM-L6-v2', cache_folder=os.path.expanduser('~/.cache/huggingface'))
+            EMBEDDINGS_AVAILABLE = True
+            print("✅ Sentence transformers model loaded successfully")
+        except Exception as e:
+            print(f"⚠️ Failed to load sentence transformers: {e}")
+            print("Using fallback zero vectors for embeddings")
+            model = None
+            EMBEDDINGS_AVAILABLE = False
+
+    except ImportError:
+        EMBEDDINGS_AVAILABLE = False
+        model = None
+        print("⚠️ sentence-transformers not available, using fallback embeddings")
 
 def embed_text(text: str) -> List[float]:
     """Generate embeddings for text using sentence transformers"""
