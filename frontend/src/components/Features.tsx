@@ -1,21 +1,29 @@
 import { Card } from "@/components/ui/card";
-import { Brain, Shield, Zap, TrendingUp, Users, FileCheck } from "lucide-react";
+import { Brain, Shield, Zap, TrendingUp, Users, Github, Sparkles, Share2 } from "lucide-react";
 
 const features = [
   {
-    icon: Brain,
-    title: "AI-Powered Discovery",
-    description: "Advanced machine learning extracts hidden skills from your CV, LinkedIn, GitHub, and other sources that traditional methods miss."
+    icon: Github,
+    title: "GitHub Skill Extraction",
+    description: "🔥 UNIQUE: Automatically analyze your GitHub repos, commits, and code patterns to discover technical skills you didn't even list on your CV.",
+    badge: "Exclusive"
+  },
+  {
+    icon: Sparkles,
+    title: "AI Career Coach",
+    description: "Get personalized skill gap analysis, custom learning paths, salary insights, interview prep, and daily career tips powered by Groq AI.",
+    badge: "New"
+  },
+  {
+    icon: Share2,
+    title: "Viral Sharing Features",
+    description: "Beautiful shareable profile cards with skill radar charts. One-click sharing to Twitter & LinkedIn. Turn users into your marketers!",
+    badge: "Popular"
   },
   {
     icon: Shield,
     title: "Evidence-Based Trust",
     description: "Every skill claim is backed by concrete evidence with confidence scores and source attribution for complete transparency."
-  },
-  {
-    icon: Zap,
-    title: "Real-Time Analysis",
-    description: "Upload your CV and get instant insights. Our AI processes multiple data sources in seconds to build your comprehensive skill profile."
   },
   {
     icon: TrendingUp,
@@ -26,11 +34,6 @@ const features = [
     icon: Users,
     title: "Team Intelligence",
     description: "Compose optimal teams by identifying complementary skills and highlighting coverage gaps with interactive visualizations."
-  },
-  {
-    icon: FileCheck,
-    title: "Smart Export",
-    description: "Generate AI-enhanced CVs with discovered skills formatted as compelling bullet points, ready for your next opportunity."
   }
 ];
 
@@ -54,9 +57,14 @@ export const Features = () => {
           {features.map((feature, index) => (
             <Card 
               key={index} 
-              className="p-8 hover:shadow-card transition-all duration-300 hover:-translate-y-2 group animate-fade-in"
+              className="p-8 hover:shadow-card transition-all duration-300 hover:-translate-y-2 group animate-fade-in relative"
               style={{ animationDelay: `${index * 0.1}s` }}
             >
+              {feature.badge && (
+                <div className="absolute top-4 right-4 px-3 py-1 bg-accent/10 border border-accent/20 rounded-full text-xs font-medium text-accent">
+                  {feature.badge}
+                </div>
+              )}
               <div className="space-y-4">
                 <div className="w-14 h-14 bg-gradient-accent rounded-xl flex items-center justify-center shadow-glow group-hover:scale-110 transition-transform">
                   <feature.icon className="w-7 h-7 text-white" />

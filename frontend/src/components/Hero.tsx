@@ -1,6 +1,7 @@
 import { Button } from "@/components/ui/button";
 import { ArrowRight, Upload, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
+import { DemoLoginButton } from "./DemoLoginButton";
 import heroBackground from "@/assets/hero-background.jpg";
 
 export const Hero = () => {
@@ -49,18 +50,21 @@ export const Hero = () => {
 
           {/* CTA Buttons */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-            <Link to="/dashboard">
+            <Link to="/register">
               <Button variant="hero" size="lg" className="group">
-                <Upload className="w-5 h-5" />
-                Upload Your CV
+                Get Started Free
                 <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
-            <Button variant="hero-outline" size="lg">
-              Watch Demo
-              <span className="ml-2">→</span>
-            </Button>
+            <div className="w-full sm:w-auto">
+              <DemoLoginButton />
+            </div>
           </div>
+          
+          {/* Demo Hint */}
+          <p className="text-sm text-white/60 pt-2">
+            ✨ Try our demo to explore AI career coaching, GitHub skill extraction, and viral sharing features
+          </p>
 
           {/* Stats */}
           <div className="grid grid-cols-3 gap-8 max-w-2xl mx-auto pt-12">
