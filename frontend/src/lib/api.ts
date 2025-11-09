@@ -55,7 +55,7 @@ export const apiClient = {
       body: formData,
     });
 
-    if (\!response.ok) {
+    if (!response.ok) {
       throw new Error(`Upload failed: ${response.statusText}`);
     }
 
@@ -66,7 +66,7 @@ export const apiClient = {
   async getJobStatus(jobId: string): Promise<JobStatus> {
     const response = await fetch(`${API_BASE_URL}/api/v1/status/${jobId}`);
     
-    if (\!response.ok) {
+    if (!response.ok) {
       throw new Error(`Failed to get job status: ${response.statusText}`);
     }
 
@@ -77,7 +77,7 @@ export const apiClient = {
   async getProfile(jobId: string): Promise<ProfileResponse> {
     const response = await fetch(`${API_BASE_URL}/api/v1/profile/${jobId}`);
     
-    if (\!response.ok) {
+    if (!response.ok) {
       throw new Error(`Failed to get profile: ${response.statusText}`);
     }
 
