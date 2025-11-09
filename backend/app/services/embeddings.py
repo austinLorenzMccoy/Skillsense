@@ -1,22 +1,32 @@
 from typing import List, Dict, Any
 import numpy as np
-
-# Use local sentence transformers for embeddings
-# Disabled for Render free tier (512MB memory limit)
 import os
+
+# Try Groq first (free tier, no memory overhead)
+try:
+    from app.services.groq_embeddings import (
+        embed_text as groq_embed_text,
+        extract_skills_with_groq,
+        GROQ_AVAILABLE
+    )
+    if GROQ_AVAILABLE:
+        print("✅ Using Groq API for embeddings (free tier)")
+        USE_GROQ = True
+    else:
+        USE_GROQ = False
+except ImportError:
+    USE_GROQ = False
+    GROQ_AVAILABLE = False
+
+# Fallback to sentence transformers if Groq not available
 DISABLE_ML_MODELS = os.getenv('DISABLE_ML_MODELS', 'false').lower() == 'true'
 
-if DISABLE_ML_MODELS:
-    EMBEDDINGS_AVAILABLE = False
-    model = None
-    print("⚠️ ML models disabled (DISABLE_ML_MODELS=true), using fallback embeddings")
-else:
+if not USE_GROQ and not DISABLE_ML_MODELS:
     try:
         from sentence_transformers import SentenceTransformer
-        # Add timeout and cache configuration
-        os.environ['HF_HUB_TIMEOUT'] = '30'  # Increase timeout to 30 seconds
+        os.environ['HF_HUB_TIMEOUT'] = '30'
         os.environ['HF_HUB_CACHE'] = os.path.expanduser('~/.cache/huggingface')
-        os.environ['HF_HUB_DISABLE_PROGRESS_BARS'] = '1'  # Reduce output
+        os.environ['HF_HUB_DISABLE_PROGRESS_BARS'] = '1'
 
         try:
             model = SentenceTransformer('all-MiniLM-L6-v2', cache_folder=os.path.expanduser('~/.cache/huggingface'))
@@ -24,27 +34,37 @@ else:
             print("✅ Sentence transformers model loaded successfully")
         except Exception as e:
             print(f"⚠️ Failed to load sentence transformers: {e}")
-            print("Using fallback zero vectors for embeddings")
             model = None
             EMBEDDINGS_AVAILABLE = False
-
     except ImportError:
         EMBEDDINGS_AVAILABLE = False
         model = None
         print("⚠️ sentence-transformers not available, using fallback embeddings")
+else:
+    EMBEDDINGS_AVAILABLE = USE_GROQ
+    model = None
+    if DISABLE_ML_MODELS:
+        print("⚠️ ML models disabled (DISABLE_ML_MODELS=true), using fallback embeddings")
 
 def embed_text(text: str) -> List[float]:
-    """Generate embeddings for text using sentence transformers"""
-    if not EMBEDDINGS_AVAILABLE or not model:
-        # Fallback: return zero vector of fixed size
-        return [0.0] * 384  # Typical embedding size
+    """Generate embeddings for text using Groq or sentence transformers"""
+    # Try Groq first (free tier, API-based)
+    if USE_GROQ:
+        try:
+            return groq_embed_text(text)
+        except Exception as e:
+            print(f"Groq embedding error: {e}, falling back")
     
-    try:
-        embedding = model.encode(text, convert_to_numpy=True)
-        return embedding.tolist()
-    except Exception as e:
-        print(f"Embedding error: {e}")
-        return [0.0] * 384
+    # Try sentence transformers
+    if EMBEDDINGS_AVAILABLE and model:
+        try:
+            embedding = model.encode(text, convert_to_numpy=True)
+            return embedding.tolist()
+        except Exception as e:
+            print(f"Embedding error: {e}")
+    
+    # Final fallback: zero vector
+    return [0.0] * 384
 
 def cosine_similarity(vec1: List[float], vec2: List[float]) -> float:
     """Calculate cosine similarity between two vectors"""

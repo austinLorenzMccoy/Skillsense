@@ -8,6 +8,7 @@ celery
 redis
 python-multipart
 requests
+groq
 sentence-transformers
 faiss-cpu
 transformers[torch]
