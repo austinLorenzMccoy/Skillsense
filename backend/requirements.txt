@@ -3,10 +3,12 @@ uvicorn[standard]
 sqlalchemy
 alembic
 pydantic
+pydantic[email]
 psycopg2-binary
+passlib[bcrypt]
+python-jose[cryptography]
 celery
 redis
-python-multipart
 requests
 groq
 sentence-transformers

@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
+from app.api.v1.auth import router as auth_router
 from app.api.v1.ingest import router as ingest_router
 from app.api.v1.profile import router as profile_router
 from app.api.v1.reasoning import router as reasoning_router
@@ -25,6 +26,7 @@ async def health_check():
     return {"status": "healthy", "version": "1.0.0"}
 
 # API routers
+app.include_router(auth_router, prefix="/api/v1/auth", tags=["authentication"])
 app.include_router(ingest_router, prefix="/api/v1", tags=["ingest"])
 app.include_router(profile_router, prefix="/api/v1", tags=["profile"])
 app.include_router(reasoning_router, prefix="/api/v1", tags=["reasoning"])
