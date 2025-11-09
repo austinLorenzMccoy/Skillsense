@@ -5,6 +5,7 @@ from app.api.v1.ingest import router as ingest_router
 from app.api.v1.profile import router as profile_router
 from app.api.v1.reasoning import router as reasoning_router
 from app.api.v1.coach import router as coach_router
+from app.api.v1.admin import router as admin_router
 
 app = FastAPI(
     title="SkillSense API",
@@ -37,6 +38,7 @@ app.include_router(ingest_router, prefix="/api/v1", tags=["ingest"])
 app.include_router(profile_router, prefix="/api/v1", tags=["profile"])
 app.include_router(reasoning_router, prefix="/api/v1", tags=["reasoning"])
 app.include_router(coach_router, prefix="/api/v1", tags=["career-coach"])
+app.include_router(admin_router, prefix="/api/v1/admin", tags=["admin"])
 
 @app.get("/")
 async def root():
