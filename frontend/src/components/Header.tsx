@@ -72,8 +72,8 @@ export const Header = () => {
                 <DropdownMenuItem onClick={() => navigate('/dashboard')}>
                   Dashboard
                 </DropdownMenuItem>
-                <DropdownMenuItem onClick={() => navigate('/settings')}>
-                  Settings
+                <DropdownMenuItem onClick={() => navigate('/profile')}>
+                  Profile Settings
                 </DropdownMenuItem>
                 {user.role === 'employee' && (
                   <DropdownMenuItem onClick={() => navigate('/upload')}>
