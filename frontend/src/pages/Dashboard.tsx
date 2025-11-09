@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useSearchParams } from "react-router-dom";
+import { useSearchParams, Navigate } from "react-router-dom";
 import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
 import { AppSidebar } from "@/components/AppSidebar";
 import { SkillCard } from "@/components/SkillCard";
@@ -11,6 +11,8 @@ import { Badge } from "@/components/ui/badge";
 import { Upload, Download, Share2, Brain, Sparkles, Loader2, RefreshCw, CheckCircle } from "lucide-react";
 import { apiClient, JobStatus, ProfileResponse } from "@/lib/api";
 import { useToast } from "@/hooks/use-toast";
+import { useAuth } from "../contexts/AuthContext";
+import EmployerDashboard from "./EmployerDashboard";
 
 // Mock data for demonstration when no real data
 const mockSkills = [
@@ -63,6 +65,7 @@ const mockSkills = [
 ];
 
 const Dashboard = () => {
+  const { user } = useAuth();
   const [searchParams] = useSearchParams();
   const { toast } = useToast();
   const [skills, setSkills] = useState(mockSkills);
@@ -71,6 +74,11 @@ const Dashboard = () => {
   const [isPolling, setIsPolling] = useState(false);
   const [dataSource, setDataSource] = useState<'mock' | 'api'>('mock');
   const jobId = searchParams.get('jobId');
+
+  // Route employers to their own dashboard
+  if (user?.role === 'employer') {
+    return <EmployerDashboard />;
+  }
 
   useEffect(() => {
     const loadData = async () => {
