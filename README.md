@@ -13,6 +13,22 @@
 
 SkillSense is a revolutionary AI-powered platform that uncovers hidden talents and skills from diverse data sources. Transform how organizations discover, validate, and leverage human potential.
 
+## 🎮 **Try It Now - Demo Access**
+
+**Live Demo**: https://skillsense-hacknation.netlify.app/
+
+### Demo Credentials:
+
+**Employee (Job Seeker)**:
+- **Email**: `demo@skillsense.ai`
+- **Password**: `demo123456`
+
+**Employer (Recruiter)**:
+- **Email**: `employer@skillsense.ai`
+- **Password**: `demo123456`
+
+💡 *Click "Try Demo Account" on the login page or use the credentials above!*
+
 ---
 
 ## ✨ **What Makes SkillSense Extraordinary**
