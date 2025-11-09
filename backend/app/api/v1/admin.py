@@ -4,7 +4,7 @@ Admin endpoints for database initialization and management
 from fastapi import APIRouter, HTTPException, Depends
 from app.core.db import engine, get_db
 from app.core.models import Base, User, Company, UserProfile
-from app.core.auth import hash_password
+from app.core.auth import hash_password, pwd_context
 from sqlalchemy.orm import Session
 import os
 
@@ -29,12 +29,22 @@ async def initialize_database(secret: str):
         # Create demo accounts
         db = next(get_db())
         
+        # Simple password for demo
+        demo_password = "demo123456"
+        
+        # Hash password once for both users
+        try:
+            hashed_pwd = pwd_context.hash(demo_password)
+        except Exception as hash_error:
+            raise HTTPException(status_code=500, detail=f"Password hashing failed: {str(hash_error)}")
+        
         # Check if demo employee exists
         demo_employee = db.query(User).filter(User.email == "demo@skillsense.ai").first()
         if not demo_employee:
+            
             demo_employee = User(
                 email="demo@skillsense.ai",
-                password_hash=hash_password("demo123456"),
+                password_hash=hashed_pwd,
                 role="employee",
                 is_verified=True,
                 is_active=True
@@ -66,7 +76,7 @@ async def initialize_database(secret: str):
             # Create employer
             demo_employer = User(
                 email="employer@skillsense.ai",
-                password_hash=hash_password("demo123456"),
+                password_hash=hashed_pwd,
                 role="employer",
                 company_id=demo_company.id,
                 is_verified=True,
