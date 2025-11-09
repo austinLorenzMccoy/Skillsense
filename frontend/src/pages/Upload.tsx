@@ -61,12 +61,17 @@ const UploadPage = () => {
       // Redirect to dashboard with job ID
       navigate(`/dashboard?jobId=${result.jobId}`);
     } catch (error) {
-      console.error("Upload failed:", error);
+      console.error("Backend unavailable, showing demo:", error);
+      
+      // If backend is unavailable, show demo mode
       toast({
-        title: "Upload Failed",
-        description: error instanceof Error ? error.message : "An unexpected error occurred.",
-        variant: "destructive",
+        title: "Demo Mode",
+        description: "Backend is currently unavailable. Showing sample analysis.",
+        variant: "default",
       });
+      
+      // Redirect to dashboard without jobId (will show mock data)
+      setTimeout(() => navigate('/dashboard'), 1500);
     } finally {
       setIsUploading(false);
     }

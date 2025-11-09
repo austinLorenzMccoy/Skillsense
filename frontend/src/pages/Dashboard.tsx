@@ -63,6 +63,76 @@ const mockSkills = [
 ];
 
 const Dashboard = () => {
+  const [searchParams] = useSearchParams();
+  const { toast } = useToast();
+  const [skills, setSkills] = useState(mockSkills);
+  const [profile, setProfile] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isPolling, setIsPolling] = useState(false);
+  const [dataSource, setDataSource] = useState<'mock' | 'api'>('mock');
+  const jobId = searchParams.get('jobId');
+
+  useEffect(() => {
+    const loadData = async () => {
+      // If no jobId, use mock data
+      if (!jobId) {
+        setDataSource('mock');
+        return;
+      }
+
+      setIsLoading(true);
+      setIsPolling(true);
+
+      try {
+        // Try to fetch from backend
+        const status = await apiClient.getJobStatus(jobId);
+        
+        if (status.status === 'done') {
+          const profileData = await apiClient.getProfile(jobId);
+          setProfile(profileData);
+          
+          // Convert API skills to component format
+          const apiSkills = profileData.skills.map(skill => ({
+            skillName: skill.name,
+            category: skill.type,
+            confidence: Math.round(skill.confidence * 100),
+            evidenceSnippet: skill.evidence[0]?.snippet || '',
+            source: skill.evidence[0]?.sourceType || 'Unknown',
+            sourceUrl: skill.evidence[0]?.sourceUrl
+          }));
+          
+          setSkills(apiSkills);
+          setDataSource('api');
+          setIsPolling(false);
+          
+          toast({
+            title: "Profile loaded!",
+            description: `Found ${apiSkills.length} skills from your data.`,
+          });
+        } else if (status.status === 'error') {
+          throw new Error(status.message || 'Processing failed');
+        } else {
+          // Still processing, poll again
+          setTimeout(loadData, 3000);
+        }
+      } catch (error) {
+        console.warn('Backend unavailable, using mock data:', error);
+        setDataSource('mock');
+        setIsPolling(false);
+        
+        toast({
+          title: "Demo Mode",
+          description: "Showing sample data. Upload a CV to see real analysis.",
+          variant: "default",
+        });
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    loadData();
+  }, [jobId, toast]);
+
   return (
     <SidebarProvider>
       <div className="min-h-screen flex w-full bg-background">
@@ -83,10 +153,18 @@ const Dashboard = () => {
             <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
               <div className="space-y-2">
                 <h1 className="text-4xl font-bold text-foreground">Your Skill Profile</h1>
-                <p className="text-muted-foreground">AI-discovered talents and evidence-based insights</p>
+                <p className="text-muted-foreground">
+                  {dataSource === 'mock' ? '🎨 Demo Mode - Sample Data' : '✨ AI-discovered talents and evidence-based insights'}
+                </p>
               </div>
               <div className="flex items-center gap-3">
-                <Button variant="outline" size="sm">
+                {isPolling && (
+                  <Badge variant="secondary" className="animate-pulse">
+                    <Loader2 className="w-3 h-3 mr-1 animate-spin" />
+                    Processing...
+                  </Badge>
+                )}
+                <Button variant="outline" size="sm" onClick={() => window.location.href = '/upload'}>
                   <Upload className="w-4 h-4" />
                   Upload New CV
                 </Button>
